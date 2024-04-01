@@ -12,7 +12,7 @@ def llm_call(function_body, module_path):
     """
 
     # Set your OpenAI API key
-    api_key = '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'
+    api_key = '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'
     
     runTest = """
         def suite():
@@ -27,8 +27,8 @@ def llm_call(function_body, module_path):
     
 
     # Set the prompt text for the API call
-    prompt = f"""code :\n{function_body}\n return only test cases and import statement if required.This code is imported from app module with path {module_path}. For generating test cases
-    always use python class. use \n below code as an example to run the test case\n{runTest} where className is the python class you are using"""
+    prompt = f"""code :\n{function_body}\n return only test cases with all import statements.This code is imported from app module with path {module_path}. For generating test cases
+    always use python class. use \n below code as an example to run the test case\n{runTest} where className is the python class you are using. Always return the correct and cross validated response"""
 
     try:
         # Make the API call
@@ -125,4 +125,5 @@ def write_python_code_to_file(file_path, python_code):
     with open(test_file_path, "w") as test_file:
         test_file.write(top_code)
         test_file.write(python_code)
+
 

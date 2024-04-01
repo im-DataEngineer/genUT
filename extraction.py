@@ -34,28 +34,36 @@ def extract_functions_and_variables(filename):
     return functions, variables
 
 
-def combine_functions_with_calls(functions, module_path):
-    """
-    Combines functions if one function calls another.
+# def combine_functions_with_calls(functions, module_path):
+#     """
+#     Combines functions if one function calls another.
 
-    Args:
-        functions (dict): A dictionary containing function names and their bodies.
+#     Args:
+#         functions (dict): A dictionary containing function names and their bodies.
 
-    Returns:
-        dict: A dictionary containing all function names and their combined bodies.
-    """
-    combined_functions = {}
+#     Returns:
+#         dict: A dictionary containing all function names and their combined bodies.
+#     """
+#     combined_functions = {}
+#     for func_name, func_body in functions.items():
+#         for called_func in functions.keys():
+#             if called_func in func_body and called_func != func_name:
+#                 func_body = func_body + "\n" + functions[called_func]
+
+#         combined_functions[func_name] = func_body
+#         # calling llm with function body
+#         #llm_call(func_body, module_path)
+
+#     return combined_functions
+
+def merge_all_functions(functions,module_path):
+    extracted_functions=""
     for func_name, func_body in functions.items():
-        for called_func in functions.keys():
-            if called_func in func_body and called_func != func_name:
-                func_body = func_body + "\n" + functions[called_func]
-
-        combined_functions[func_name] = func_body
-        # calling llm with function body
-        llm_call(func_body, module_path)
-
-    return combined_functions
-
+        extracted_functions+=func_body
+        extracted_functions+="\n\n"
+        
+    llm_call(extracted_functions, module_path)
+    
 
 def process_file(file_path):
     """
@@ -70,7 +78,8 @@ def process_file(file_path):
     """
     
     functions, variables = extract_functions_and_variables(file_path)
-    return combine_functions_with_calls(functions,file_path), variables
+    merged_functions = merge_all_functions(functions,file_path)
+    return functions, variables
 
 
 def process_directory(directory):
@@ -99,7 +108,7 @@ def process_directory(directory):
 
 def gen_test(path):
     
-    functions, variables = process_directory(path)
+    process_directory(path)
     
     # print("Functions:")
     # for function_name, function_body in functions.items():
