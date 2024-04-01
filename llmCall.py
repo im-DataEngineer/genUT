@@ -12,7 +12,7 @@ def llm_call(function_body, module_path):
     """
 
     # Set your OpenAI API key
-    api_key = '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'
+    api_key = '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'
     
     runTest = """
         def suite():
